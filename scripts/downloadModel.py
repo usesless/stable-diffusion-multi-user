@@ -13363,7 +13363,7 @@ def upload_image_to_s3_from_url(url, bucket_name, s3_key):
 
 
 def get_filename_from_url(url):
-    with requests.get(url, stream=True,proxies=proxies) as response:
+    with requests.get(url, stream=True) as response:
         # 检查Content-Disposition属性
         content_disposition = response.headers.get('content-disposition')
         
