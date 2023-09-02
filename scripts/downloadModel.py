@@ -4,6 +4,7 @@ import requests
 from urllib.parse import quote
 
 a = {
+
     "result": {
         "data": {
             "json": {
@@ -4592,6 +4593,7 @@ a = {
         }
     }
 }
+
 
 b ={
     "result": {
@@ -13309,14 +13311,6 @@ c = {
     }
 }
 
-# for item in all_items:
-#     image_id = item['image']['id']
-#     model_id = item['image']['modelVersionId']
-
-
-# //div[@class="mantine-Text-root mantine-8y0mzi"]
-# //img[@class="mantine-180xhmt"]
-
 all_items = a['result']['data']['json']['items'][0]['items'] + \
     b['result']['data']['json']['items'][0]['items'] + \
     c['result']['data']['json']['items'][0]['items']
@@ -13369,13 +13363,12 @@ def upload_image_to_s3_from_url(url, bucket_name, s3_key):
 
 
 def get_filename_from_url(url):
-    with requests.get(url, stream=True) as response:
+    with requests.get(url, stream=True,proxies=proxies) as response:
         # 检查Content-Disposition属性
         content_disposition = response.headers.get('content-disposition')
         
         # 立即关闭连接，避免下载文件
         response.close()
-        print(response.content)
 
         if not content_disposition:
             return None
@@ -13410,15 +13403,15 @@ for image_id,id in zip( image_ids,ids):
     model_links_orders.append(f"wget -P ./models/Lora {model_link} --content-disposition")
     print({"id":image_id,"src":"https://usesless2.s3.ap-northeast-1.amazonaws.com/website/loras/" + quote(image_filename) ,"name":title_text , "desc":"", "value":value})
     
-    upload_image_to_s3_from_url(image_url,'usesless2','website/loras/' + image_filename)
+    # upload_image_to_s3_from_url(image_url,'usesless2','website/loras/' + image_filename)
     # print(f"Downloaded and saved: {image_filename}")
 
-with open('download_models.sh', 'w') as f:
-    f.write("#!/bin/bash\n\n")  # 添加bash魔法行
-    for link in model_links_orders:
-        f.write(link + "\n")
-os.chmod('download_models.sh', 0o755)
+# with open('download_models.sh', 'w') as f:
+#     f.write("#!/bin/bash\n\n")  # 添加bash魔法行
+#     for link in model_links_orders:
+#         f.write(link + "\n")
+# os.chmod('download_models.sh', 0o755)
 
-os.system('./download_models.sh')
+# os.system('./download_models.sh')
 
 
