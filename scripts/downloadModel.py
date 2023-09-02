@@ -1,11 +1,9 @@
 import os
 from bs4 import BeautifulSoup
 import requests
-from lxml import etree
 from urllib.parse import quote
 
 a = {
-
     "result": {
         "data": {
             "json": {
@@ -4594,7 +4592,6 @@ a = {
         }
     }
 }
-
 
 b ={
     "result": {
